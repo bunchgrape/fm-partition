@@ -1,0 +1,9 @@
+Usage:
+	./verifier <testcase.nets> <testcase.cells> <your result file of testcase>
+
+Output:
+	If your result file have something wrong, it will print "Error:.....".
+	Otherwise, it will print "OK!! Your output file satisfy our basic requirements.".
+
+
+./verifier /data/ssd/bqfu/hw/HW1/testcases/p2-1.nets /data/ssd/bqfu/hw/HW1/testcases/p2-1.cells /data/ssd/bqfu/hw/HW1/p2-1.out
