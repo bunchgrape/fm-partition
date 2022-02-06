@@ -1,5 +1,4 @@
 #include "log.h"
-#include "log_level.h"
 
 #include <iomanip>
 #include <sstream>
@@ -19,11 +18,6 @@ void timer::start() { _start = clock::now(); }
 double timer::elapsed() const { return std::chrono::duration<double>(clock::now() - _start).count(); }
 
 timer tstamp;
-
-NoStreamBuf nostreambuf;
-std::ostream nocout(&nostreambuf);
-
-bool verbose_parser_log = false;
 
 std::ostream& operator<<(std::ostream& os, const timer& t) {
     std::ostringstream oss;  // seperate the impact of format
@@ -68,67 +62,9 @@ double mem_use::get_peak() {
 #endif
 }
 
-std::ostream& log(int log_level, std::ostream& os_ori) {
-    if (!verbose_parser_log) {
-        return nocout;
-    }
-    std::ostream& os_new = (log_level >= GLOBAL_LOG_LEVEL) ? os_ori : nocout;
-    std::string prefix = "";
-    if (log_level > LOG_INFO) {
-        prefix = log_level_ANSI_color(log_level);
-    }
-    os_new << tstamp << prefix;
-    return os_new;
-}
-
-void printlog(int log_level, const char* format, ...) {
-    if (!verbose_parser_log) {
-        return;
-    }
-    log(log_level);
-    if (log_level >= GLOBAL_LOG_LEVEL) {
-        va_list ap;
-        va_start(ap, format);
-        vfprintf(stdout, format, ap);
-        printf("\n");
-        fflush(stdout);
-    }
-}
-
-void assert_msg(bool condition, const char* format, ...) {
-    if (!condition) {
-        std::cerr << "Assertion failure: ";
-        va_list ap;
-        va_start(ap, format);
-        vfprintf(stdout, format, ap);
-        std::cerr << std::endl;
-        std::abort();
-    }
-    return;
-}
-
-std::string log_level_ANSI_color(int& log_level) {
-    std::string color_string;
-    switch (log_level) {
-        case LOG_NOTICE:
-            color_string = "\033[1;34mNotice\033[0m: ";
-            break;
-        case LOG_WARN:
-            color_string = "\033[1;93mWarning\033[0m: ";
-            break;
-        case LOG_ERROR:
-            color_string = "\033[1;31mError\033[0m: ";
-            break;
-        case LOG_FATAL:
-            color_string = "\033[1;41;97m F A T A L \033[0m: ";
-            break;
-        case LOG_OK:
-            color_string = "\033[1;32mOK\033[0m: ";
-            break;
-        default:
-            break;
-    }
-    return color_string;
+std::ostream& log(std::ostream& os) {
+    os << tstamp;
+    return os;
 }
 
 }  // namespace utils

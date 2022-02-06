@@ -105,11 +105,12 @@ bool Database::readNets(const std::string& file) {
     cout << "reading net" << std::endl;
     ifstream fs(file.c_str());
     if (!fs.good()) {
-        printlog(LOG_ERROR, "cannot open file: %s", file.c_str());
+        printlog("cannot open file: %s", file.c_str());
         return false;
     }
-
+    
     vector<string> tokens;
+    int netID;
     while (readBSLine(fs, tokens)) {
         if (tokens[0] == "NET") {
             int netID = bsData.nNets++;
@@ -121,6 +122,13 @@ bool Database::readNets(const std::string& file) {
                 bsData.netCells[netID].push_back(cellID);
             }
         }
+        // else{
+        //     for (unsigned i = 2; i < tokens.size(); i++) {
+        //         string cName = tokens[i];
+        //         int cellID = bsData.cellMap[cName];
+        //         bsData.netCells[netID].push_back(cellID);
+        //     }
+        // }
     }
 
     fs.close();
@@ -133,7 +141,7 @@ bool Database::readCells(const std::string& file) {
     cout << "reading cells" << std::endl;
     ifstream fs(file.c_str());
     if (!fs.good()) {
-        printlog(LOG_ERROR, "cannot open file: %s", file.c_str());
+        printlog("cannot open file: %s", file.c_str());
         return false;
     }
 
@@ -190,7 +198,6 @@ bool Database::read(const std::string& cellFile, const std::string& netFile) {
             counter[cell->group]++;
         }
         net->cut = (counter[0]!=0)*(counter[1]!=0);
-        // cout << net->cut << endl;
     }
 
     return true;

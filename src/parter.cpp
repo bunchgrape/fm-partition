@@ -152,7 +152,7 @@ bool Partition::pass(){
         // GAIN summation
         gain_local += cell_mov->gain;
 
-        // update gains
+        // update gains and lock
         freecells[maxElementIndex] = 0;
         update_gain(cell_mov); 
         num_free--;
@@ -199,7 +199,6 @@ void Partition::iter(){
         if (iteration == 0)
             GAIN = 0;
 
-
         init_gain();
         // move a step
         pass();
@@ -228,7 +227,8 @@ void Partition::cutsize(){
         }
         cut += (partition[0]*partition[1] > 0);
     }
-    cout << "========cutsize: " << cut << " ============ " << endl;
+    log() << "========cutsize: " << cut << " ============ " << endl;
+    cuts = cut;
 } //END MODULE
 
 //-------------------------------------------------------------------------------

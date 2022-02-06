@@ -5,7 +5,6 @@ using namespace db;
 
 /***** Database *****/
 Database::Database() {
-
     _buffer = new char[_bufferCapacity];
 }
 
@@ -13,15 +12,13 @@ Database::~Database() {
     delete[] _buffer;
     _buffer = nullptr;
     // for regions.push_back(new Region("default"));
-
-    log() << "destruct rawdb" << std::endl;
 }
 
 
 Cell* Database::addCell(const string& name, const int size) {
     Cell* cell = getCell(name);
     if (cell) {
-        printlog(LOG_WARN, "cell re-defined: %s", name.c_str());
+        printlog("cell re-defined: %s", name.c_str());
         return cell;
     }
     cell = new Cell(name);
@@ -35,7 +32,7 @@ Cell* Database::addCell(const string& name, const int size) {
 Net* Database::addNet(const string& name) {
     Net* net = getNet(name);
     if (net) {
-        printlog(LOG_WARN, "Net re-defined: %s", name.c_str());
+        printlog("Net re-defined: %s", name.c_str());
         return net;
     }
     net = new Net(name);

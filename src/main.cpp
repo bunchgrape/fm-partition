@@ -10,31 +10,27 @@ void signalHandler(int signum) {
 // -----------------------------------------------------------------------------
 
 void partition(const string& file_path){
-    std::cout << "partitioning" << std::endl;
+    std::cout << "Partitioning" << std::endl;
 
     // required
 	std::string cellFile = file_path;
-    std::string netFile = cellFile.substr(0,cellFile.find_last_of('.')) + ".nets";
+    std::string prefix = cellFile.substr(0,cellFile.find_last_of('.'));
+    std::string netFile = prefix + ".nets";
+    std::string design = prefix.substr(prefix.find_last_of('/'));
 
     db::Database database;
 
-    std::cout << &database << std::endl;
+    database.designName = design;
 
     database.read(cellFile, netFile);
 
-
     pt::Partition parter(&database);
-
-    std::cout << &parter.database << std::endl;
 
     parter.load();
 
-    parter.iter();
+    parter.iter_bucket();
 
     parter.write();
-
-    // for (int i : parter.gain_history)
-    //     cout << i << endl;
 
 }
 
@@ -53,14 +49,12 @@ int main(int argc, char* argv[]) {
 
     std::cout << file_path << std::endl;
 
-    // vector<int> a = {-5,1,3};
-    // cout << max_element(a.begin(),
-    //                             a.end()) - a.begin();
-    // exit(1);
 
     partition(file_path);
 
-    std::cout << "----------terminated------------" << std::endl;
+    printlog("---------------------------------------------------------------------------");
+    printlog("                               Terminated...                               ");
+    printlog("---------------------------------------------------------------------------");
 
     return 0;
 }

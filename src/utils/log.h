@@ -7,7 +7,6 @@
 //      std::string c = "Gengjie";
 //      print(a, b, c);
 //     This code piece will show "10 3.14 Gengjie".
-// 3. "assert_msg(condition, format, ...)" is python-like assert
 //
 
 #pragma once
@@ -15,12 +14,8 @@
 #include <chrono>
 #include <iostream>
 #include <string>
-#include <cstdarg>
-#include "log_level.h"
 
 namespace utils {
-
-extern bool verbose_parser_log;
 
 // 1. Timer
 
@@ -57,30 +52,19 @@ void print(const T& t, TAIL... tail) {
 }
 
 // "log() << a << b << c" puts a time stamp in beginning
-std::ostream& log(int log_level = LOG_INFO, std::ostream& os_ori = std::cout);
-
-// "printlog(LOG_LEVEL, a, b, c...)" puts a time stamp in beginning
-// try to make code compatible with old printlog(int level, const char *format, ...)
-void printlog(int level, const char* format, ...);
+std::ostream& log(std::ostream& os = std::cout);
 
 // "printlog(a, b, c)" puts a time stamp in beginning
-// template <typename... T>
-// void printlog(T... t) {
-//     log();
-//     print(t...);
-// }
+template <typename... T>
+void printlog(T... t) {
+    log();
+    print(t...);
+}
 
 template <typename... T>
 void printflog(T... t) {
     log();
     printf(t...);
 }
-
-void assert_msg(bool condition, const char* format, ...);
-
-std::string log_level_ANSI_color(int& log_level);
-
-// 4. empty class for verbose
-class NoStreamBuf : public std::streambuf {};
 
 }  // namespace utils

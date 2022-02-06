@@ -46,7 +46,6 @@
 // utils
 #include "utils/utils.h"
 
-using utils::assert_msg;
 using utils::log;
 using utils::print;
 using utils::printflog;
