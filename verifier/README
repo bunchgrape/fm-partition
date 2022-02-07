@@ -1,0 +1,17 @@
+Usage:
+	./verifier <testcase.nets> <testcase.cells> <your result file of testcase>
+
+Output:
+	If your result file have something wrong, it will print "Error:.....".
+	Otherwise, it will print "OK!! Your output file satisfy our basic requirements.".
+
+
+./verifier ../testcases/p2-1.nets ../testcases/p2-1.cells ../output/p2-1.out
+
+./verifier ../testcases/p2-2.nets ../testcases/p2-2.cells ../output/p2-2.out
+
+./verifier ../testcases/p2-3.nets ../testcases/p2-3.cells ../output/p2-3.out
+
+./verifier ../testcases/p2-4.nets ../testcases/p2-4.cells ../output/p2-4.out
+
+./verifier ../testcases/p2-5.nets ../testcases/p2-5.cells ../output/p2-5.out
