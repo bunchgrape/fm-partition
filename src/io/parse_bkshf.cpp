@@ -102,7 +102,7 @@ bool readBSLine(istream& is, vector<string>& tokens) {
 //---------------------------------------------------------------------
 
 bool Database::readNets(const std::string& file) {
-    cout << "reading net" << std::endl;
+    log() << "Reading net" << std::endl;
     ifstream fs(file.c_str());
     if (!fs.good()) {
         printlog("cannot open file: %s", file.c_str());
@@ -138,7 +138,7 @@ bool Database::readNets(const std::string& file) {
 //---------------------------------------------------------------------
 
 bool Database::readCells(const std::string& file) {
-    cout << "reading cells" << std::endl;
+    log() << "Reading cells" << std::endl;
     ifstream fs(file.c_str());
     if (!fs.good()) {
         printlog("cannot open file: %s", file.c_str());

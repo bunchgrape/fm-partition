@@ -22,7 +22,8 @@ bool Partition::load(){
         freecells.push_back(1);
 
         // random partition
-        int group = 2 * (float)rand() / RAND_MAX;
+        // int group = 2 * (float)rand() / RAND_MAX;
+        int group = (areas[0] < areas[1]) ? 0 : 1;
         balance += pow(-1, group) * cell->size();
         cell->group = group;
         areas[group] += cell->size();
@@ -34,11 +35,11 @@ bool Partition::load(){
     
     areas[2] = areas[0] + areas[1];
     ratio = areas[0] / areas[2];
-    cout << areas[0] << "|" << areas[1] << endl;
+    log() << "Partition Size: "<< areas[0] << " | " << areas[1] << endl;
 
-    cout << database->nCells << " cells" << endl;
-    cout << database->nNets << " nets" << endl;
-    cout << "Max Degree " << maxDegree << endl;
+    log() << database->nCells << " cells" << endl;
+    log() << database->nNets << " nets" << endl;
+    log() << "Max Degree " << maxDegree << endl;
     return true;
 } //END MODULE
 
@@ -120,7 +121,7 @@ void Partition::init(){
 //-------------------------------------------------------------------------------
 
 void Partition::init_bucket(){
-    log() << "Initializing BucketList\n";
+    // log() << "Initializing BucketList\n";
     // clear list
     clear();
 
@@ -358,7 +359,6 @@ void Partition::update_gain(db::Cell* cell_mov){
 bool Partition::pass(){
     int gain_local = 0;
     num_free = database->nCells;
-    sizeBucket();
     // printBucket();
     while (num_free){
         // pop the max gain cell
@@ -425,7 +425,7 @@ void Partition::iter(){
     int GAIN_dif = INT_MAX;
     GAINS.push_back(0);
     int iteration = 0;
-    while(GAIN_dif > database->nCells / 1e5){
+    while(GAIN_dif > database->nCells / 1e4){
         if (iteration == 0)
             GAIN = 0;
         else
@@ -446,14 +446,13 @@ void Partition::iter(){
         log() << "-----------------------iteration: " << iteration << "| Gm: " << GAIN << "------------------------" << endl;
         cutsize();
 
-        write();
+        // write();
         iteration++;
     }
 
 } //END MODULE
 
 //-------------------------------------------------------------------------------
-
 
 }
 

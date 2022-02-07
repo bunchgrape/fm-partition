@@ -10,7 +10,9 @@ void signalHandler(int signum) {
 // -----------------------------------------------------------------------------
 
 void partition(const string& file_path){
-    std::cout << "Partitioning" << std::endl;
+    log()<< "Partitioning" << std::endl;
+
+    utils::timer runtime;
 
     // required
 	std::string cellFile = file_path;
@@ -25,15 +27,28 @@ void partition(const string& file_path){
     database.read(cellFile, netFile);
 
     pt::Partition parter(&database);
-
     parter.load();
 
-    // parter.init_bucket();
+    // runtime
+    double io_time = runtime.elapsed();
+    log() << "========== IO time: " << io_time << " s ==========\n\n\n";
 
     parter.iter();
+     // runtime
+    double exe_time = runtime.elapsed();
+    log() << "========== Execution time: " << exe_time - io_time << " s ==========\n\n\n";
+    
+    parter.write();
 
-    // parter.write();
+    ofstream outfile;
 
+    outfile.open("./output"+design+".log", ios::out);
+
+    outfile << "cutsize " << parter.cut_size << "\n";
+    outfile << "IO time: " << io_time << "\n";
+    outfile << "Execution time: " << exe_time - io_time << "\n";
+    
+    outfile.close();
 }
 
 // -----------------------------------------------------------------------------
@@ -45,11 +60,11 @@ int main(int argc, char* argv[]) {
 
     std::cout << std::boolalpha;  // set std::boolalpha to std::cout
     
-    std::cout << "----------------------------" << std::endl;
+    log() << "---------------------------------------------------------------" << std::endl;
 
     string file_path = string(argv[1]);
 
-    std::cout << file_path << std::endl;
+    log() << "Reading from " << file_path << std::endl;
 
 
     partition(file_path);

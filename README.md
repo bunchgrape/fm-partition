@@ -9,5 +9,5 @@ cmake ../src && cmake --build ./ && mv par ../
 
 ## Run
 ```
-./par ./testcases/p2-1.cells
+./run/par ./testcases/p2-1.cells
 ```
