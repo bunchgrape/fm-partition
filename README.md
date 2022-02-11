@@ -4,7 +4,7 @@
 ## Build
 ```
 cd build 
-cmake ../src && cmake --build ./ && mv par ../
+cmake ../src && cmake --build ./ && mv par ../run
 ```
 
 ## Run
